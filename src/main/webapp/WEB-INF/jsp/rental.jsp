@@ -11,20 +11,14 @@
         .tg {
             font-family: Arial, sans-serif;
             font-size: 14px;
-            padding: 10px 5px;
-            border-style: solid;
-            border-width: 1px;
-            overflow: hidden;
-            word-break: normal;
-            border-color: #ccc;
-            color: #333;
-            background-color: #fff;
+            padding: 15px 45px;
+            border-collapse: collapse;
         }
 
         .tg td {
             font-family: Arial, sans-serif;
             font-size: 14px;
-            padding: 10px 5px;
+            padding: 15px 10px;
             border-style: solid;
             border-width: 1px;
             overflow: hidden;
@@ -48,15 +42,39 @@
             background-color: #f0f0f0;
             text-align: center;
         }
-        .tgb .tg-4eph {
-            background-color: #f9f9f9
+        errors{
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: red;
+        }
+        input{
+            padding: 3px 5px;
+            border-width: 1px;
+            border-color: #ccc;
+            border-radius: 2px;
+        }
+        a{
+            text-decoration: none;
+            color: rgba(2, 84, 199, 0.78);
+        }
+        a:hover{
+            color: rgb(2, 78, 186);
         }
     </style>
 </head>
 <body>
-<h1>
+<<table class="tg">
+    <tr>
+        <td><a href="<c:url value="/renter" />">Renter</a></td>
+        <td><a href="<c:url value="/rental" />">Rental</a></td>
+        <td><a href="<c:url value="/cd" />">Cd</a></td>
+        <td><a href="<c:url value="/list-genre" />">List genre</a></td>
+        <td><a href="<c:url value="/genre" />">Genres</a></td>
+    </tr>
+</table>
+<h2>
     Rental
-</h1>
+</h2>
 <c:url var="addAction" value="/rental/add-rental"></c:url>
 
 <form:form action="${addAction}" modelAttribute="rental" form="">
@@ -65,48 +83,52 @@
         <tr>
             <td>
                 <form:label path="numRental">
-                    <spring:message text="Number rental"/>
+                    <spring:message text="№ проката"/>
                 </form:label>
             </td>
             <td>
-                <form:input path="numRental"/>
+                <form:input path="numRental" maxlength="10"/>
+                <form:errors path="numRental" />
             </td>
         </tr>
 
         <tr>
             <td>
                 <form:label path="numCd">
-                    <spring:message text="Num cd"/>
+                    <spring:message text="№ диска"/>
                 </form:label>
             </td>
             <td>
-                <form:input path="numCd"/>
+                <form:input path="numCd" maxlength="10"/>
+                <form:errors path="numCd" />
             </td>
         </tr>
         <tr>
             <td>
                 <form:label path="numRenter">
-                    <spring:message text="Num renter"/>
+                    <spring:message text="№ клиента"/>
                 </form:label>
             </td>
             <td>
-                <form:input path="numRenter"/>
+                <form:input path="numRenter" maxlength="10"/>
+                <form:errors path="numRenter" />
             </td>
         </tr>
         <tr>
             <td>
                 <form:label path="dateRental">
-                    <spring:message text="Date rental"/>
+                    <spring:message text="Дата"/>
                 </form:label>
             </td>
             <td>
-                <form:input path="dateRental"/>
+                <form:input path="dateRental" maxlength="10"/>
+                <form:errors path="dateRental" />
             </td>
         </tr>
         <tr>
             <td colspan="2">
                 <input type="submit"
-                       value="<spring:message text="Add Rental"/>"/>
+                       value="<spring:message text="Добавить"/>"/>
             </td>
         </tr>
     </table>
@@ -114,12 +136,12 @@
 <c:if test="${!empty listRental}">
     <table class="tg">
         <tr>
-            <th width="40">Number rental</th>
-            <th width="40">Num cd</th>
-            <th width="40">Num renter</th>
-            <th width="80">Date rental</th>
-            <th width="80">Edit</th>
-            <th width="80">Delete</th>
+            <th>№ проката</th>
+            <th>№ диска</th>
+            <th>№ клиента</th>
+            <th>Дата</th>
+            <th>Редактировать</th>
+            <th>Удалить</th>
         </tr>
         <c:forEach items="${listRental}" var="rental">
             <tr>
@@ -128,8 +150,8 @@
                 <td>${rental.numRenter}</td>
                 <td>${rental.dateRental}</td>
 
-                <td><a href="<c:url value="/edit-rental/${rental.numRental}" />">Edit</a></td>
-                <td><a href="<c:url value="/delete-rental/${rental.numRental}" />">Delete</a></td>
+                <td><a href="<c:url value="/edit-rental/${rental.numRental}" />">Редактировать</a></td>
+                <td><a href="<c:url value="/delete-rental/${rental.numRental}" />">Удалить</a></td>
             </tr>
         </c:forEach>
     </table>

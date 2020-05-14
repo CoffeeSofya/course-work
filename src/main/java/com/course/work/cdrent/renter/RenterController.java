@@ -29,24 +29,13 @@ public class RenterController {
         return "/renter";
     }
 
-//    @RequestMapping(value = "/renters/add-renter", method = RequestMethod.POST)
-//    public String addRenter(@ModelAttribute("renter") @Valid RenterDto dto, BindingResult result) {
-//        if(result.hasErrors()) {
-//            log.error("Возникла ошибка");
-//            return "redirect:/renter";
-//        }
-//
-//        service.save(dto);
-//        return "redirect:/renter";
-//    }
-
-
 
     @RequestMapping(value = "/renters/add-renter", method = RequestMethod.POST)
-    public String addRenter(@ModelAttribute("renter") @Valid RenterDto dto, Errors errors) {
-        if(errors.hasErrors()) {
+    public String addRenter(@ModelAttribute("renter") @Valid RenterDto dto, BindingResult result, Model model) {
+        if(result.hasErrors()) {
             log.error("Возникла ошибка");
-            return "redirect:/renter";
+            model.addAttribute("listRenter", service.getAllRenter());
+            return "/renter";
         }
 
         service.save(dto);

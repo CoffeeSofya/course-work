@@ -1,5 +1,6 @@
 package com.course.work.cdrent.listgenre;
 
+import com.course.work.cdrent.cd.service.CDService;
 import com.course.work.cdrent.listgenre.dto.ListGenreDto;
 import com.course.work.cdrent.listgenre.service.ListGenreService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 @Slf4j
 public class ListGenreController {
     private final ListGenreService service;
+    private final CDService cdService;
 
     @RequestMapping(value = {"/list-genre"}, method = RequestMethod.GET)
     public String listListGenre(Model model) {
@@ -28,11 +30,12 @@ public class ListGenreController {
         return "/list-genre";
     }
 
-    @RequestMapping(value = "/list-genres/add-list-genre", method = RequestMethod.POST)
-    public String addListGenre(@ModelAttribute("list-genre") @Valid ListGenreDto dto, BindingResult result) {
+    @RequestMapping(value = "/list-genre/add-list-genre", method = RequestMethod.POST)
+    public String addListGenre(@ModelAttribute("list-genre") @Valid ListGenreDto dto, BindingResult result, Model model) {
         if(result.hasErrors()) {
             log.error("Возникла ошибка");
-            return "redirect:/list-genre";
+            model.addAttribute("listListGenre", service.getAllListGenre());
+            return "/list-genre";
         }
 
         service.save(dto);
@@ -50,6 +53,14 @@ public class ListGenreController {
         model.addAttribute("numGenre", service.getById(numGenre));
         model.addAttribute("listListGenre", service.getAllListGenre());
         model.addAttribute("list-genre", service.getById(numGenre));
+        return "/list-genre";
+    }
+
+    @RequestMapping(value ="/get-list-cd/{numGenre}", method = RequestMethod.GET)
+    public String getListGenres(@PathVariable("numGenre") Integer numGenre, Model model) {
+        model.addAttribute("listListGenre", service.getAllListGenre());
+        model.addAttribute("list-genre", service.getById(numGenre));
+        model.addAttribute("listgenres", cdService.getCdForGenres(numGenre));
         return "/list-genre";
     }
 }

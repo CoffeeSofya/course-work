@@ -15,15 +15,20 @@ import javax.validation.constraints.Positive;
 @EqualsAndHashCode
 public class CDDto {
     @NotNull
+    @Positive(message = "поддерживаются только числовые значения")
     private Integer numCd;
-    @NotBlank
+
+    @NotBlank(message = "введите название")
     private String title;
+
     @Positive
     @NotNull
     private Integer releaseYear;
+
     @Positive
     @NotNull
     private Integer cost;
+
     @Positive
     @NotNull
     private Integer count;

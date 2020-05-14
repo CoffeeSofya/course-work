@@ -3,15 +3,14 @@ package com.course.work.cdrent.cd.entity;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Embeddable
 @Table(name = "cd")
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
+@EqualsAndHashCode
 public class CDEntity {
     @Id
     @Column(name = "num_cd")
@@ -24,8 +23,5 @@ public class CDEntity {
     private Integer cost;
     @Column(name = "count_cd")
     private Integer count;
-
-    @OneToMany(mappedBy = "cdEntity")
-    private Set<GernreCdEntity>;
 }
 

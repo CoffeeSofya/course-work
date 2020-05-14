@@ -13,17 +13,16 @@ import javax.validation.constraints.*;
 @EqualsAndHashCode
 public class RenterDto {
     @NotNull
+    @Positive
+//    @Size(max = 10)
     private Integer numRenter;
-
     @NotNull
-//    @Min(5)
     @NotBlank(message = "Введите ФИО")
     private String fullName;
     @NotNull
-    @NotBlank(message = "Введите номер телефона в формате\"8XXXXXXXXXX\"")
-//    @Size(max = 11, min = 11)
+    @Pattern(regexp = "\\+7[0-9]{10}", message = "Телефонный номер должен начинаться с +7, затем - 10 цифр")
     private String tel;
-//    @Email
+    @Email
     private String email;
 
 }

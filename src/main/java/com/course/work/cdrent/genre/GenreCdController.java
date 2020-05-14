@@ -29,10 +29,11 @@ public class GenreCdController {
     }
 
     @RequestMapping(value = "/genres/add-genre", method = RequestMethod.POST)
-    public String addGenreCd(@ModelAttribute("genre") @Valid GenreCdDto dto, BindingResult result) {
+    public String addGenreCd(@ModelAttribute("genre") @Valid GenreCdDto dto, BindingResult result, Model model) {
         if(result.hasErrors()) {
             log.error("Возникла ошибка");
-            return "redirect:/genre";
+            model.addAttribute("listGenreCd", service.getAllGenreCd());
+            return "/genre";
         }
 
         service.save(dto);

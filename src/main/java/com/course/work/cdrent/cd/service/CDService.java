@@ -54,4 +54,10 @@ public class CDService {
         log.info("Пришел запрос на удаление CD с id = {}", id);
         repository.deleteById(id);
     }
+
+    public List<CDDto> getCdForGenres(Integer numGenre) {
+        return repository.getCdForGenres(numGenre).stream()
+                .map(e -> new CDDto(e.getNumCd(),e.getTitle(),e.getReleaseYear(), e.getCost(), e.getCount()))
+                .collect(Collectors.toList());
+    }
 }

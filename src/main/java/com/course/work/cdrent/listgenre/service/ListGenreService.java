@@ -54,4 +54,10 @@ public class ListGenreService {
         log.info("Пришел запрос на удаление ListGenre с id = {}", id);
         repository.deleteById(id);
     }
+
+    public List<ListGenreDto> getGenresForCd(Integer numCd) {
+        return repository.getGenresForNumCd(numCd).stream()
+                .map(e -> new ListGenreDto(e.getNumGenre(),e.getGenre()))
+                .collect(Collectors.toList());
+    }
 }

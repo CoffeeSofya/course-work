@@ -1,44 +1,41 @@
 package com.course.work.cdrent.cd;
 
 import com.course.work.cdrent.cd.dto.CDDto;
-import com.course.work.cdrent.cd.repository.CDRepository;
 import com.course.work.cdrent.cd.service.CDService;
-import com.course.work.cdrent.genre.entity.GenreCdEntity;
-import com.course.work.cdrent.infocd.entity.InfoCdEntity;
+import com.course.work.cdrent.listgenre.service.ListGenreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
+
 
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
 @Slf4j
 public class CDController {
+
     private final CDService service;
+    private final ListGenreService genreService;
 
-    private final CDRepository repository;
 
-    @RequestMapping(value = {"/cd"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/cd"},method = RequestMethod.GET)
     public String listCD(Model model) {
         model.addAttribute("cd", new CDDto());
         model.addAttribute("listCD", service.getAllCD());
         return "/cd";
     }
 
-    @RequestMapping(value = "/cds/add-cd", method = RequestMethod.POST)
-    public String addCD(@ModelAttribute("cd") @Valid CDDto dto, BindingResult result) {
+    @RequestMapping(value = "/cd/add-cd", method = RequestMethod.POST)
+    public String addCD(@ModelAttribute("cd") @Valid CDDto dto, BindingResult result, Model model) {
         if(result.hasErrors()) {
             log.error("Возникла ошибка");
-            return "redirect:/edit-cd/" + dto.getNumCd();
+            model.addAttribute("listCD", service.getAllCD());
+            return "/cd";
         }
 
         service.save(dto);
@@ -51,16 +48,18 @@ public class CDController {
         return "redirect:/cd";
     }
 
-    @RequestMapping(value = "edit-cd/{num_cd}", method = RequestMethod.GET)
+    @RequestMapping(value = "/edit-cd/{num_cd}", method = RequestMethod.GET)
     public String editCD(@PathVariable("num_cd") Integer numCd, Model model) {
         model.addAttribute("listCD", service.getAllCD());
         model.addAttribute("cd", service.getById(numCd));
         return "/cd";
     }
 
-//    @RequestMapping(value = "/test", method = RequestMethod.GET)
-//    public String test() {
-//        log.info("{}",repository.get());
-//        return "/cd";
-//    }
+    @RequestMapping(value = "/get-genres/{num_cd}", method = RequestMethod.GET)
+    public String getGenres(@PathVariable("num_cd") Integer numCd, Model model) {
+        model.addAttribute("listCD", service.getAllCD());
+        model.addAttribute("cd", service.getById(numCd));
+        model.addAttribute("genres", genreService.getGenresForCd(numCd));
+        return "/cd";
+    }
 }

@@ -15,5 +15,4 @@ public interface CDMapper {
 
     CDEntity map(CDDto dto);
 
-
 }

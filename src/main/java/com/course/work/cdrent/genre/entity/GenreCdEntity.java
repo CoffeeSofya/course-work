@@ -11,8 +11,7 @@ import java.util.Set;
 @Embeddable
 @Table(name = "genre_cd")
 @NoArgsConstructor
-@Getter
-@Setter
+@Data
 public class GenreCdEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,8 +21,4 @@ public class GenreCdEntity {
     private Integer numCd;
     @Column(name = "num_genre")
     private Integer numGenre;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinTable(name = "cd")
-    private CDEntity cdEntity;
 }
